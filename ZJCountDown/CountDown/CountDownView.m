@@ -161,7 +161,7 @@ const NSInteger timeVar = 60;
 }
 
 -(void)dealloc{
-    NSLog(@"CountDownView");
+    NSLog(@"dealloc - CountDownView");
 }
 
 #pragma mark -- getter
