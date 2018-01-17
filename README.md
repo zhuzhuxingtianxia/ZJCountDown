@@ -5,7 +5,6 @@
  ![img](https://github.com/zhuzhuxingtianxia/ZJCountDown/blob/master/20180117.gif)
  
  ### 使用API
-        ```
         /**
         字体颜色 默认白色
         */
@@ -35,4 +34,4 @@
         取消倒计时
         */
         -(void)cancelTimerCountDown;
-        ```
+     
