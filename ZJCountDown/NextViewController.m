@@ -19,6 +19,17 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     // Do any additional setup after loading the view.
+    [self buildView];
+}
+
+-(void)buildView{
+    UILabel *label = [UILabel new];
+    label.frame = CGRectMake(20, 200, 60, 40);
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"距结束";
+    label.textColor = [UIColor redColor];
+    [self.view addSubview:label];
+    
     _countDownView = [[CountDownView alloc] init];
     _countDownView.frame = CGRectMake(100, 200, 200, 40);
     _countDownView.cornerRadius = 5.0;
