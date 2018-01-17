@@ -9,8 +9,10 @@
 #import "NextViewController.h"
 #import "UIViewController+BackButtonHandler.h"
 #import "CountDownView.h"
-@interface NextViewController ()
+@interface NextViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)CountDownView *countDownView;
+@property(nonatomic,strong)UITableView *tableView;
+@property(nonatomic,strong)NSMutableArray *dataArray;
 @end
 
 @implementation NextViewController
@@ -20,6 +22,11 @@
     self.view.backgroundColor = [UIColor whiteColor];
     // Do any additional setup after loading the view.
     [self buildView];
+    self.dataArray = [NSMutableArray array];
+    for (NSInteger k = 0; k < 20; k++) {
+        [self.dataArray addObject:@(arc4random()%100)];
+    }
+    [self.tableView reloadData];
 }
 
 -(void)buildView{
@@ -29,7 +36,7 @@
     label.text = @"距结束";
     label.textColor = [UIColor redColor];
     [self.view addSubview:label];
-    
+    /*
     _countDownView = [[CountDownView alloc] init];
     _countDownView.frame = CGRectMake(100, 260, 200, 40);
     _countDownView.cornerRadius = 5.0;
@@ -42,6 +49,45 @@
         [self.navigationController popViewControllerAnimated:YES];
     }];
     [self.view addSubview:_countDownView];
+    */
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 350, self.view.bounds.size.width, 300) style:UITableViewStylePlain];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    [self.view addSubview:self.tableView];
+}
+
+#pragma mark -- UITableViewDelegate
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return self.dataArray.count;
+}
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+       CountDownView *downView = [[CountDownView alloc] init];
+        downView.frame = CGRectMake(100, 0, 200, 40);
+        downView.cornerRadius = 5.0;
+        downView.textColor = [UIColor whiteColor];
+        downView.textFont = [UIFont boldSystemFontOfSize:18];
+        downView.tag = 1000;
+        [cell.contentView addSubview:downView];
+        
+    }
+    CountDownView *downView = [cell.contentView viewWithTag:1000];
+    if (indexPath.row%2 == 0) {
+        downView.tintColor = [UIColor redColor];
+    }else{
+         downView.tintColor = [UIColor blackColor];
+    }
+    NSNumber *number = self.dataArray[indexPath.row];
+    [downView countDownWithTimeInterval:[number integerValue] completion:^(BOOL finished) {
+        
+    }];
+    
+    return cell;
 }
 
 -(BOOL)navigationShouldPopOnBackButton{

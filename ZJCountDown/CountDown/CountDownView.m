@@ -37,8 +37,11 @@ const NSInteger timeVar = 60;
     for (NSInteger k = 0; k < labelCout; k++) {
         UILabel *lable = [self countDownLabel:k + 900];
         if (k%2 == 0) {
+            lable.textColor = [UIColor whiteColor];
+            lable.backgroundColor = [UIColor blackColor];
             lable.text = @"00";
         }else{
+            lable.textColor = [UIColor blackColor];
             lable.text = @":";
         }
         [self addSubview:lable];
@@ -85,6 +88,8 @@ const NSInteger timeVar = 60;
         
     }
 }
+
+#pragma mark -- setter
 //设置圆角
 -(void)setCornerRadius:(CGFloat)cornerRadius{
     if (cornerRadius > 0) {
@@ -95,6 +100,44 @@ const NSInteger timeVar = 60;
                 label.layer.cornerRadius = _cornerRadius;
                 label.layer.masksToBounds = YES;
             }
+        }
+    }
+}
+
+//设置背景颜色
+-(void)setTintColor:(UIColor *)tintColor{
+    if (tintColor && _tintColor != tintColor) {
+        _tintColor = tintColor;
+        for (NSInteger k = 0; k < self.lableContainer.count; k++){
+            UILabel *label = self.lableContainer[k];
+            if (k%2 == 0) {
+                label.backgroundColor = _tintColor;
+                
+            }else{
+                label.textColor = _tintColor;
+            }
+        }
+    }
+}
+
+-(void)setTextColor:(UIColor *)textColor{
+    if (textColor && _textColor != textColor) {
+        _textColor = textColor;
+        for (NSInteger k = 0; k < self.lableContainer.count; k++){
+            UILabel *label = self.lableContainer[k];
+            if (k%2 == 0) {
+                label.textColor = _textColor;
+            }
+        }
+    }
+}
+
+-(void)setTextFont:(UIFont *)textFont{
+    if (textFont && _textFont != textFont) {
+        _textFont = textFont;
+        for (NSInteger k = 0; k < self.lableContainer.count; k++){
+            UILabel *label = self.lableContainer[k];
+            label.font = _textFont;
         }
     }
 }
@@ -141,23 +184,8 @@ const NSInteger timeVar = 60;
 }
 
 #pragma mark -- Override
-
 -(void)layoutSubviews{
     [super layoutSubviews];
-    for (NSInteger k = 0; k < self.lableContainer.count; k++){
-        UILabel *label = self.lableContainer[k];
-        if (_textFont) {
-            label.font = _textFont;
-        }
-        if (k%2 == 0) {
-            label.textColor = _textColor ?:[UIColor whiteColor];
-            label.backgroundColor = _tintColor ?: [UIColor blackColor];
-            
-        }else{
-           label.textColor = _tintColor ?: [UIColor blackColor];
-        }
-    }
-    
 }
 
 -(void)dealloc{
