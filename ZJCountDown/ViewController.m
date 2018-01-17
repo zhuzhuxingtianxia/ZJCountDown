@@ -22,12 +22,14 @@
     // Do any additional setup after loading the view, typically from a nib.
     _countDownView.cornerRadius = 10.0;
     _countDownView.textFont = [UIFont boldSystemFontOfSize:20];
-    [_countDownView countDownWithTimeInterval:15 completion:^(BOOL finished) {
+    
+}
+- (IBAction)startCountDown:(id)sender {
+    [_countDownView countDownWithTimeInterval:5 completion:^(BOOL finished) {
         NextViewController *vc = [NextViewController new];
         
         [self.navigationController pushViewController:vc animated:YES];
     }];
-    
 }
 
 - (IBAction)pushAction:(id)sender {
