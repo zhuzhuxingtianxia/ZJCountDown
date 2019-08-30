@@ -13,6 +13,7 @@ static NSInteger labelCout = 5;
 const NSInteger timeVar = 60;
 
 @interface CountDownView ()
+//存储label的容器
 @property(nonatomic,strong)NSMutableArray  *lableContainer;
 //标记内存地址，用于区别不同的定时器
 @property(nonatomic,copy)NSString  *addressId;

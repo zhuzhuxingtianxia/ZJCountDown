@@ -24,7 +24,7 @@
     [self buildView];
     self.dataArray = [NSMutableArray array];
     for (NSInteger k = 0; k < 20; k++) {
-        [self.dataArray addObject:@(arc4random()%100)];
+        [self.dataArray addObject:@(60+k)];
     }
     [self.tableView reloadData];
 }
@@ -77,6 +77,7 @@
         
     }
     CountDownView *downView = [cell.contentView viewWithTag:1000];
+    downView.itemPath = indexPath;
     if (indexPath.row%2 == 0) {
         downView.tintColor = [UIColor redColor];
     }else{

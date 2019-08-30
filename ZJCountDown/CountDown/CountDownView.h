@@ -29,6 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign)CGFloat  cornerRadius;
 
 /**
+ ⚠️ 在列表重用时，用于标示每一个cell。
+    否则会显示错误，或无法取消定时器
+ */
+@property(nonatomic,copy)NSIndexPath  *itemPath;
+
+/**
  用于倒计时
 
  @param timeInterval 倒计时时间戳
