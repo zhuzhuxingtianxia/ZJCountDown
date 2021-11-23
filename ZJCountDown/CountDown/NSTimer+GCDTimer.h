@@ -19,7 +19,7 @@
  @param repeats 是否循环执行，默认NO
  @param action 执行回调
  */
-+(void)scheduledDispatchTimerWithName:(NSString*)timerName timeInterval:(double)interval queue:(dispatch_queue_t)queue repeats:(BOOL)repeats action:(dispatch_block_t)action;
++(void)scheduledTimerWithName:(NSString*)timerName timeInterval:(double)interval queue:(dispatch_queue_t)queue repeats:(BOOL)repeats action:(dispatch_block_t)action;
 
 /**
  根据名称取消指定的定时器

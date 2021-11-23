@@ -27,9 +27,9 @@
 
 @implementation NSTimer (GCDTimer)
 //GCD定时器封装
-+(void)scheduledDispatchTimerWithName:(NSString*)timerName timeInterval:(double)interval queue:(dispatch_queue_t)queue repeats:(BOOL)repeats action:(dispatch_block_t)action{
++(void)scheduledTimerWithName:(NSString*)timerName timeInterval:(double)interval queue:(dispatch_queue_t)queue repeats:(BOOL)repeats action:(dispatch_block_t)action{
     
-    if (timerName == nil) {
+    if (timerName == nil || (interval <= 0 && repeats)) {
         return;
     }
     if (queue == nil) {
@@ -43,9 +43,10 @@
     dispatch_source_t timer = [self.timerContainer objectForKey:timerName];
     if (!timer) {
         timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-        dispatch_resume(timer);
+        @synchronized (self.timerContainer) {
+            [self.timerContainer setValue:timer forKey:timerName];
+        }
         
-        [self.timerContainer setValue:timer forKey:timerName];
     }
     
     dispatch_source_set_timer(timer, dispatch_time(DISPATCH_TIME_NOW, interval * NSEC_PER_SEC), interval * NSEC_PER_SEC, 0);
@@ -62,6 +63,8 @@
         
     });
     
+    dispatch_resume(timer);
+    
 }
 
 +(void)cancelTimerWithName:(NSString*)timerName{
@@ -69,10 +72,12 @@
     if (!timer) {
         return;
     }
-    [self.timerContainer removeObjectForKey:timerName];
+    @synchronized (self.timerContainer) {
+        [self.timerContainer removeObjectForKey:timerName];
+        dispatch_source_cancel(timer);
+        timer = nil;
+    }
     
-    dispatch_source_cancel(timer);
-    timer = nil;
 }
 
 +(void)cancelAllTimer{

@@ -151,7 +151,7 @@ const NSInteger timeVar = 60;
     [self displayTime:timeInterval];
     
     __block NSInteger time = timeInterval;
-    [NSTimer scheduledDispatchTimerWithName:self.addressId timeInterval:1.0 queue:nil repeats:YES action:^{
+    [NSTimer scheduledTimerWithName:self.addressId timeInterval:1.0 queue:nil repeats:YES action:^{
         time--;
         [self displayTime:time];
         if (time <= 0) {
